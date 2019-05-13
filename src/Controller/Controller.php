@@ -3,14 +3,19 @@
 
 namespace App\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class Controller
 {
 
-    public function index() {
+    public function index(Request $request): Response {
 
-        return new Response('Hello world');
+        $name = $request->get('name');
+        if (empty($name)) {
+            $name = "world";
+        }
+        return new Response('Hello ' . $name .' !');
     }
 
 }
