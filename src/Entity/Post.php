@@ -27,11 +27,6 @@ class Post
     private $public = false;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $isPublished = false;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -45,6 +40,11 @@ class Post
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $attachment;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $publishedAt;
 
     public function getId(): ?int
     {
@@ -99,18 +99,6 @@ class Post
         return $this;
     }
 
-    public function getIsPublished(): ?bool
-    {
-        return $this->isPublished;
-    }
-
-    public function setIsPublished(?bool $isPublished): self
-    {
-        $this->isPublished = $isPublished;
-
-        return $this;
-    }
-
     public function getAttachment(): ?string
     {
         return $this->attachment;
@@ -119,6 +107,18 @@ class Post
     public function setAttachment(?string $attachment): self
     {
         $this->attachment = $attachment;
+
+        return $this;
+    }
+
+    public function getPublishedAt(): ?\DateTimeInterface
+    {
+        return $this->publishedAt;
+    }
+
+    public function setPublishedAt(?\DateTimeInterface $publishedAt): self
+    {
+        $this->publishedAt = $publishedAt;
 
         return $this;
     }
