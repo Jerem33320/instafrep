@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostController extends AbstractController
 {
     /**
-     * @Route("/post", name="post")
+     * @Route("/posts", name="posts_list")
      */
     public function index()
     {
@@ -20,7 +20,9 @@ class PostController extends AbstractController
 
         // On envoie les posts dans la vue
         return $this->render('post/index.html.twig', [
+            // variable twig => variable PHP
             'posts' => $posts
         ]);
     }
+
 }
