@@ -46,6 +46,7 @@ class Post
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\GreaterThanOrEqual("today")
      */
     private $publishedAt;
 
