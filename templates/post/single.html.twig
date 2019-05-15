@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Single
+{% endblock %}
+
+{% block pageContent %}
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-4">Instafrep</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-8">
+
+                {% include 'post/card.html.twig' %}
+
+
+                <a href="{{ url('posts_list') }}" class="btn btn-primary">
+                    Revenir à la liste
+                </a>
+            </div>
+
+            <div class="col-md-4"></div>
+        </div>
+
+    </div>
+{% endblock %}
