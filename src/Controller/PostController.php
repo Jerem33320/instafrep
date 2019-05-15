@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
-use mysql_xdevapi\Exception;
+use App\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -50,4 +50,19 @@ class PostController extends AbstractController
             'post' => $post
         ]);
     }
+
+
+    /**
+     * @Route("posts/new", name="post_create")
+     */
+    public function create() {
+
+        $form = $this->createForm(PostType::class);
+
+        return $this->render('post/create.html.twig', [
+            'post_form' => $form->createView()
+        ]);
+    }
+
+
 }
