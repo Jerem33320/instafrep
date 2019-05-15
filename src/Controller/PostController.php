@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PostController extends AbstractController
@@ -54,15 +56,35 @@ class PostController extends AbstractController
 
     /**
      * @Route("posts/new", name="post_create")
+     *
+     * @param Request $request
+     * @return Response
      */
-    public function create() {
+    public function create(Request $request) {
 
         $form = $this->createForm(PostType::class);
+
+        $form->handleRequest($request);
+
+        if ( $form->isSubmitted() ) {
+
+            // on crée un nouvelle instance de l'entité Post
+            $post = $form->getData();
+
+            // on dit à Doctrine de "s'occuper" de ce Post
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($post);
+
+            // finalement, on dit au manager d'envoyer le post en BDD
+            $manager->flush();
+
+            return $this->redirectToRoute('posts_list');
+
+        }
 
         return $this->render('post/create.html.twig', [
             'post_form' => $form->createView()
         ]);
     }
-
 
 }

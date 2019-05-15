@@ -22,7 +22,7 @@ class PostType extends AbstractType
                 ]
             ])
             ->add('public')
-            ->add('attachment', FileType::class)
+            ->add('attachment', FileType::class, [ 'required' => false ])
             ->add('publishedAt', DateType::class, [
                 'widget' => 'single_text',
                 'required' => false
