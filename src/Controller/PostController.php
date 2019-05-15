@@ -62,29 +62,36 @@ class PostController extends AbstractController
      */
     public function create(Request $request) {
 
+        $response = new Response();
+
         $form = $this->createForm(PostType::class);
 
         $form->handleRequest($request);
 
         if ( $form->isSubmitted() ) {
 
-            // on crée un nouvelle instance de l'entité Post
-            $post = $form->getData();
+            if ($form->isValid()) {
+                // on crée un nouvelle instance de l'entité Post
+                $post = $form->getData();
 
-            // on dit à Doctrine de "s'occuper" de ce Post
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($post);
+                // on dit à Doctrine de "s'occuper" de ce Post
+                $manager = $this->getDoctrine()->getManager();
+                $manager->persist($post);
 
-            // finalement, on dit au manager d'envoyer le post en BDD
-            $manager->flush();
+                // finalement, on dit au manager d'envoyer le post en BDD
+                $manager->flush();
 
-            return $this->redirectToRoute('posts_list');
+                return $this->redirectToRoute('posts_list');
+
+            } else {
+                $response->setStatusCode(400);
+            }
 
         }
 
         return $this->render('post/create.html.twig', [
             'post_form' => $form->createView()
-        ]);
+        ], $response);
     }
 
 }

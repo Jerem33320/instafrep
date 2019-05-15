@@ -19,9 +19,8 @@
 
             {{ form_widget(post_form.content, {'attr': { 'class': 'form-control' }}) }}
 
-            <div class="invalid-feedback">
-                {{ form_errors(post_form.content) }} Erreur : sdlfksdfjh
-            </div>
+            {{ form_errors(post_form.content) }}
+
         </div>
 
         <div class="form-group">
