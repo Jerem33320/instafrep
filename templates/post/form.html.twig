@@ -1,0 +1,50 @@
+{% from '_macros/field-has_error.html.twig' import hasError %}
+
+{{ form_start(post_form, { 'action': path('post_create') }) }}
+
+<div class="form-group">
+    {{ form_label(post_form.content) }}
+
+    {{ form_widget(post_form.content, {'attr': { 'class': 'form-control ' ~ hasError(post_form.content) }}) }}
+
+    <div class="text-danger">
+        {{ form_errors(post_form.content) }}
+    </div>
+
+</div>
+
+<div class="form-group">
+    {{ form_label(post_form.attachment, 'Include a cool picture')}}
+    <div class="custom-file">
+        {{ form_widget(post_form.attachment, {'attr': { 'class': 'custom-file-input' ~ hasError(post_form.attachment) }}) }}
+        {{ form_label(post_form.attachment, 'Select a file', { 'label_attr': { 'class': 'custom-file-label' }})}}
+    </div>
+    <small class="form-text text-muted">
+        Only the following valid images format are supported : jpeg, png, gif
+    </small>
+
+    <div class="text-danger">
+        {{ form_errors(post_form.attachment) }}
+    </div>
+</div>
+
+<div class="form-group">
+    {{ form_label(post_form.publishedAt, 'Set publication date') }}
+    {{ form_widget(post_form.publishedAt, {'attr': { 'class': 'form-control' ~ hasError(post_form.publishedAt) }}) }}
+
+    <div class="text-danger">
+        {{ form_errors(post_form.publishedAt) }}
+    </div>
+</div>
+
+<div class="form-group">
+
+    <div class="custom-control custom-switch">
+        {{ form_widget(post_form.public, { 'attr': { 'class' : 'custom-control-input' ~ hasError(post_form.public)}}) }}
+        {{ form_label(post_form.public, 'Mark visibility as public', { 'label_attr': { 'class' : 'custom-control-label'}}) }}
+    </div>
+</div>
+
+{{ form_widget(post_form.submit, { 'attr': { 'class' : 'btn btn-primary'}}) }}
+
+    {{ form_end(post_form) }}

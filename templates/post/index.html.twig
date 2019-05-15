@@ -4,34 +4,35 @@
     Liste des publications publiques
 {% endblock %}
 
-{% block pageContent %}
 
-    <div class="jumbotron">
-        <div class="container">
-            <h1 class="display-4">Instafrep</h1>
-            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-            <hr class="my-4">
-            <a class="btn btn-primary btn-lg" href="#" role="button">S'inscrire</a>
-        </div>
-    </div>
+{% block headerContent %}
+    <h1 class="display-4">Instafrep</h1>
+    <p class="lead">Code, sandwiches and fun !!!</p>
 
-    <div class="container">
-        <div class="row">
+    <hr class="my-4">
 
-            <div class="col-md-8">
+    <a class="btn btn-primary btn-lg" href="#" role="button">Join now</a>
 
-                <ul>
-                {% for post in posts %}
-                    <li>
-                        {% include 'post/card.html.twig' %}
-                    </li>
-                {% endfor  %}
-                </ul>
 
-            </div>
+{%  endblock %}
 
-            <div class="col-md-4"></div>
-        </div>
+{% block mainContent %}
 
+    <ul>
+        {% for post in posts %}
+            <li>
+                {% include 'post/card.html.twig' %}
+            </li>
+        {% endfor  %}
+    </ul>
+{% endblock %}
+
+
+
+{% block sidebarContent %}
+
+    <div class="sticky">
+        {% include 'post/form.html.twig' %}
     </div>
 {% endblock %}
+

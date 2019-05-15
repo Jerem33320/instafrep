@@ -16,9 +16,33 @@
         {% endblock %}
     </head>
     <body>
+
+        {% block header %}
+
+            {% include 'navbar.html.twig' %}
+
+            <div class="jumbotron">
+                <div class="container">
+                    {% block headerContent %}
+                    {%  endblock %}
+                </div>
+            </div>
+
+        {% endblock %}
+
         {% block pageContent %}
 
-            PARENT CONTENT
+            <div class="container">
+                <div class="row">
+                    <div class="col-8">
+                        {% block mainContent%}{% endblock %}
+                    </div>
+
+                    <div class="col-4">
+                        {% block sidebarContent %}{% endblock %}
+                    </div>
+                </div>
+            </div>
 
         {% endblock %}
 

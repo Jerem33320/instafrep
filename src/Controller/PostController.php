@@ -19,12 +19,17 @@ class PostController extends AbstractController
         // On récupère tous les Posts publics
         $posts = $this->getDoctrine()->getRepository(Post::class)->findBy([
            'public' => true,
+        ], [
+            'id' => 'DESC'
         ]);
+
+        $form = $this->createForm(PostType::class);
 
         // On envoie les posts dans la vue
         return $this->render('post/index.html.twig', [
             // variable twig => variable PHP
-            'posts' => $posts
+            'posts' => $posts,
+            'post_form' => $form->createView()
         ]);
     }
 

@@ -4,29 +4,26 @@
     Single
 {% endblock %}
 
-{% block pageContent %}
 
-    <div class="jumbotron">
-        <div class="container">
-            <h1 class="display-4">Instafrep</h1>
-        </div>
-    </div>
+{% block headerContent %}
+    <h1 class="display-4">Post #{{ post.id }}</h1>
+{%  endblock %}
 
-    <div class="container">
-        <div class="row">
+{% block mainContent %}
 
-            <div class="col-md-8">
+    {% set hideLink = true %}
+    {% include 'post/card.html.twig' %}
 
-                {% include 'post/card.html.twig' %}
-
-
-                <a href="{{ url('posts_list') }}" class="btn btn-primary">
-                    Revenir à la liste
-                </a>
-            </div>
-
-            <div class="col-md-4"></div>
-        </div>
-
-    </div>
 {% endblock %}
+
+
+
+{% block sidebarContent %}
+
+    <a href="{{ url('posts_list') }}" class="btn btn-block btn-outline-primary">
+        Revenir à la liste
+    </a>
+
+
+{% endblock %}
+
