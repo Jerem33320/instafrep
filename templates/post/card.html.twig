@@ -5,9 +5,9 @@
 
             <span class="post-author">
                 <img src="{{ post.author.avatar }}" alt="">
-                <span>
+                <a href="{{ path('user_profile', { 'id': post.author.id }) }}">
                     {{ post.author.username }}
-                </span>
+                </a>
             </span>
 
             
