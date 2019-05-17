@@ -15,6 +15,10 @@
             <li>
                 {% include 'post/card.html.twig' %}
             </li>
+        {% else %}
+            <li>
+                {{ user.username }} n'a rien publié pour le moment !
+            </li>
         {% endfor  %}
     </ul>
 {% endblock %}

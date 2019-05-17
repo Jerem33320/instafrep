@@ -1,6 +1,11 @@
 {% from '_macros/field-has_error.html.twig' import hasError %}
 
-{{ form_start(post_form, { 'action': path('post_create') }) }}
+
+{% if action is not defined %}
+    {% set action  = path('post_create') %}
+{% endif %}
+
+{{ form_start(post_form, { 'action': action }) }}
 
 <div class="form-group">
     {{ form_label(post_form.content) }}

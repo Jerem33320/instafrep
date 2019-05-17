@@ -99,4 +99,77 @@ class PostController extends AbstractController
         ], $response);
     }
 
+    /**
+     * @Route("posts/{id}/edit", name="post_edit")
+     * @param Request $request
+     * @param $id the post id
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function edit(Request $request, $id) {
+        // On va chercher en BDD le post qui correspond à l'ID
+        $post = $this
+            ->getDoctrine()
+            ->getRepository(Post::class)
+            ->find($id);
+
+        // Si le post n'est pas trouvé, on doit gérer cette erreur
+        if (empty($post)) {
+            throw $this->createNotFoundException('Post introuvable');
+        }
+
+        $response = new Response();
+
+        $form = $this->createForm(PostType::class, $post);
+
+        $form->handleRequest($request);
+
+        if ( $form->isSubmitted() ) {
+
+            if ($form->isValid()) {
+
+                // on dit au manager d'envoyer le post en BDD
+                $manager = $this->getDoctrine()->getManager();
+                $manager->flush();
+
+                return $this->redirectToRoute('posts_list');
+
+            } else {
+                $response->setStatusCode(400);
+            }
+
+        }
+
+        return $this->render('post/edit.html.twig', [
+            'post_form' => $form->createView(),
+            'post' => $post
+        ], $response);
+    }
+
+
+    /**
+     * @Route("posts/{id}/remove", name="post_remove")
+     */
+    public function remove($id) {
+
+        // On va chercher en BDD le post qui correspond à l'ID
+        $post = $this
+            ->getDoctrine()
+            ->getRepository(Post::class)
+            ->find($id);
+
+        // Si le post n'est pas trouvé, on doit gérer cette erreur
+        if (empty($post)) {
+            throw $this->createNotFoundException('Post introuvable');
+        }
+
+        // on supprime
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($post);
+        $manager->flush();
+
+        // on redirige
+        return $this->redirectToRoute('posts_list');
+    }
+
 }

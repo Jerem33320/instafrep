@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Single
+    Editer le post {{ post.id }}
 {% endblock %}
 
 
 {% block headerContent %}
-    <h1 class="display-4">Post #{{ post.id }}</h1>
+    <h1 class="display-4">Editer le post #{{ post.id }}</h1>
 {%  endblock %}
 
 {% block mainContent %}
 
-    {% set hideLink = true %}
-    {% include 'post/card.html.twig' %}
+    {% set action = path('post_edit', { 'id': post.id }) %}
+    {% include 'post/form.html.twig' %}
 
 {% endblock %}
 
