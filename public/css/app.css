@@ -13,3 +13,15 @@ ul {
 .post-card-data {
     margin: 0 8px;
 }
+
+.post-author {
+    display: flex;
+    align-items: center;
+}
+
+.post-author img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 16px;
+}

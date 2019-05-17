@@ -2,7 +2,15 @@
 
     <div class="card-header">
         <h5 class="card-title">
-            <a href="{{ url('post_single', { 'id': post.id }) }}">Post #{{ post.id }}</a>
+
+            <span class="post-author">
+                <img src="{{ post.author.avatar }}" alt="">
+                <span>
+                    {{ post.author.username }}
+                </span>
+            </span>
+
+            
         </h5>
     </div>
 

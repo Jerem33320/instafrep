@@ -16,6 +16,7 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         // Création des Users
+        $users = [];
         $usernames = ['Sleepy', 'Doc', 'Dopey'];
         $avatars = [
             'https://www.listchallenges.com/f/items-dl/a2b55c01-befc-4286-a245-0b3a8c8a2098.jpg',
@@ -33,11 +34,14 @@ class AppFixtures extends Fixture
             $user->setAvatar($avatars[$k]);
 
             $manager->persist($user);
+            array_push($users, $user);
+
         }
 
+        $users = $manager->getRepository(User::class)->findAll();
 
         // Création des Posts
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 30; $i++) {
 
             $content = $faker->realText(280);
             $isPublic = $faker->boolean(70);
@@ -49,6 +53,11 @@ class AppFixtures extends Fixture
             $post->setPublic($isPublic);
             $post->setCreatedAt($date);
             $post->setPublishedAt($date->add(new \DateInterval('P1D')));
+
+
+            $k = array_rand($users);
+            $author = $users[$k];
+            $post->setAuthor($author);
 
             $manager->persist($post);
         }
