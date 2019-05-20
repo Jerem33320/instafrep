@@ -19,6 +19,33 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+
+    /**
+     * Find a random user.
+     *
+     * !! This implementation is very slow !!
+     */
+    public function findOneRandom() {
+
+        // trouver toutes les ids
+        $ids = $this->createQueryBuilder('u')
+            ->select('u.id')
+            ->getQuery()
+            ->getResult();
+
+        // choisir une ID au hasard
+        shuffle($ids);
+        $id = $ids[0]['id'];
+
+        // selectionner l'utilisateur
+        return $this->createQueryBuilder('u')
+            ->where('u.id = :value')
+            ->setParameter('value', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
