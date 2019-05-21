@@ -16,13 +16,23 @@ class PostController extends AbstractController
     /**
      * @Route("/posts", name="posts_list")
      */
-    public function index()
+    public function index(Request $request)
     {
-        // On récupère tous les Posts
+        $page = $request->query->get('p');
+
+        if (!isset($page)) {
+            $page = 1;
+        }
+
+        $page = max(1, $page);
+
+        $start = ($page - 1) * 5;
+
+        // On récupère tous les Posts publics
         $posts = $this
             ->getDoctrine()
             ->getRepository(Post::class)
-            ->findPostList();
+            ->findHomepage($start);
 
         $form = $this->createForm(PostType::class);
 
