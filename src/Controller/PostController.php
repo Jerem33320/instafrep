@@ -19,11 +19,10 @@ class PostController extends AbstractController
     public function index()
     {
         // On récupère tous les Posts publics
-        $posts = $this->getDoctrine()->getRepository(Post::class)->findBy([
-           'public' => true,
-        ], [
-            'id' => 'DESC'
-        ]);
+        $posts = $this
+            ->getDoctrine()
+            ->getRepository(Post::class)
+            ->findHomepage();
 
         $form = $this->createForm(PostType::class);
 

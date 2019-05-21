@@ -48,6 +48,13 @@ class Post extends Model
      */
     private $comments;
 
+    /**
+     * The number of comments for this post
+     * @var int
+     */
+    private $nbComments;
+
+
     public function __construct()
     {
         parent::__construct();
@@ -121,7 +128,10 @@ class Post extends Model
      */
     public function getComments(): Collection
     {
-        return $this->comments;
+        $comments = $this->comments;
+        $this->nbComments = $comments->count();
+
+        return $comments;
     }
 
     public function addComment(Comment $comment): self
@@ -144,6 +154,32 @@ class Post extends Model
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * Get the number of comments
+     *
+     * (If not fetched, the comments are extracted from the database)
+     *
+     * @return integer
+     */
+    public function getNbComments():int
+    {
+        if (isset($this->nbComments)) {
+            return $this->nbComments;
+        }
+
+        return $this->getComments()->count();
+    }
+
+    /**
+     * @param integer $nbComments
+     * @return Post
+     */
+    public function setNbComments(int $nbComments)
+    {
+        $this->nbComments = $nbComments;
         return $this;
     }
 }
