@@ -14,11 +14,33 @@
     {% set hideLink = true %}
     {% include 'post/card.html.twig' %}
 
+    <ul class="post-comments">
+
+    {% for comment in post.comments %}
+        <li>
+            {% include 'comment/card.html.twig' %}
+        </li>
+    {% else %}
+        <li>
+            Soyez le premier à commenter
+        </li>
+    {% endfor %}
+    </ul>
+
 {% endblock %}
 
 
 
 {% block sidebarContent %}
+
+    <div class="card">
+        <div class="card-header">
+            <h4>Commenter</h4>
+        </div>
+        <div class="card-body">
+            {% include 'comment/form.html.twig' %}
+        </div>
+    </div>
 
     <a href="{{ url('posts_list') }}" class="btn btn-block btn-outline-primary">
         Revenir à la liste
@@ -28,6 +50,7 @@
     <a href="{{ url('post_remove', { 'id' : post.id }) }}" class="btn btn-block btn-danger">
         !!! Supprimer le post !!!
     </a>
+
 
 {% endblock %}
 

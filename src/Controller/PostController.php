@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Form\CommentType;
 use App\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,9 +54,13 @@ class PostController extends AbstractController
             throw $this->createNotFoundException('Post introuvable');
         }
 
+        // On crée un formulaire pour les commentaires
+        $form = $this->createForm(CommentType::class);
+
         // On passe le post trouvé à la vue
         return $this->render('post/single.html.twig', [
-            'post' => $post
+            'post' => $post,
+            'comment_form' => $form->createView()
         ]);
     }
 
