@@ -37,7 +37,7 @@ class PostRepository extends ServiceEntityRepository
 
         $results = $this->createQueryBuilder('p')
             ->select('p as post, COUNT(c.id) as nbComments')
-            ->join('p.comments', 'c')
+            ->leftJoin('p.comments', 'c')
             ->where('p.public = true')
             ->groupBy('p.id')
             ->orderBy('p.id', 'DESC')
