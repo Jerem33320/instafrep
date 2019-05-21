@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -38,7 +39,6 @@ class AppFixtures extends Fixture
 
         }
 
-        $users = $manager->getRepository(User::class)->findAll();
 
         // Création des Posts
         for ($i = 0; $i < 30; $i++) {
@@ -54,13 +54,38 @@ class AppFixtures extends Fixture
             $post->setCreatedAt($date);
             $post->setPublishedAt($date->add(new \DateInterval('P1D')));
 
-
+            // Auteur du post
             $k = array_rand($users);
             $author = $users[$k];
             $post->setAuthor($author);
 
+
+            // Creation des commentaires
+            $nbComments = rand(3, 8);
+            for ($j = 0; $j < $nbComments; $j++) {
+
+                $comment = new Comment();
+                $comment->setContent($faker->realText(280));
+
+                $key = array_rand($users);
+                $commentAuthor = $users[$key];
+                $comment->setAuthor($commentAuthor);
+
+                // Liaison du commentaire à son post
+                $comment->setPost($post);
+                // OU
+                $post->addComment($comment);
+
+                // Persister le commentaire !!
+                // (inutile ici, car automatiquement configuré dans l'entité Post (cascade))
+                $manager->persist($comment);
+            }
+
             $manager->persist($post);
         }
+
+
+
 
         $manager->flush();
     }
