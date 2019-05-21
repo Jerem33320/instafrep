@@ -1,14 +1,16 @@
 <div class="card mb-3">
 
-    <div class="card-header">
-        <h5 class="card-title">
+    <div class="card-header post-header">
 
+        <h5 class="card-title">
             <span class="post-author">
                 {% include 'user/_avatar.html.twig' with { 'user': post.author } %}
             </span>
-
-            
         </h5>
+
+        <div class="post-id">
+            #{{ post.id }}
+        </div>
     </div>
 
     <div class="card-body">

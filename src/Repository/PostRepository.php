@@ -21,13 +21,17 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get all the posts and the related amount of comments
+     * Get the posts and the related amount of comments
+     * Results are paginated.
+     *
+     * @param int $start The initial offset for the result
+     * @param int $take The number of posts to select
      *
      * @return array The posts for the homepage
      */
-    public function findHomepage()
+    public function findHomepage(int $start = 0, $take = 5)
     {
-       return $this->findPostList(true);
+       return $this->findPostList($start, $take, true);
     }
 
     /**
@@ -35,13 +39,15 @@ class PostRepository extends ServiceEntityRepository
      *
      * @return array The posts for the homepage
      */
-    public function findPostList($onlyPublic = false)
+    public function findPostList($start, $take, $onlyPublic = false)
     {
         $queryBuilder = $this->createQueryBuilder('p')
             ->select('p as post, COUNT(c.id) as nbComments')
             ->leftJoin('p.comments', 'c')
             ->groupBy('p.id')
-            ->orderBy('p.id', 'DESC');
+            ->orderBy('p.id', 'DESC')
+            ->setFirstResult($start)
+            ->setMaxResults($take)
 
         if ($onlyPublic === true) {
             $queryBuilder = $queryBuilder->where('p.public = true');

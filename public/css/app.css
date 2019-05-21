@@ -14,6 +14,19 @@ ul {
     margin: 0 8px;
 }
 
+.post-header {
+    display: flex;
+}
+
+.post-header h5 {
+    flex: 1;
+}
+
+.post-id {
+    /*align-self: center;*/
+    color: #c4c4c4;
+}
+
 .post-author {
     display: flex;
     align-items: center;
