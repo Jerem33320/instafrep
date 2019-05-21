@@ -1,11 +1,7 @@
 {% from '_macros/field-has_error.html.twig' import hasError %}
 
 
-{% if action is not defined %}
-    {% set action  = path('post_create') %}
-{% endif %}
-
-{{ form_start(comment_form, { 'action': action }) }}
+{{ form_start(comment_form, { 'action': path('comment_create', { 'postId': post.id }) }) }}
 
 <div class="form-group">
     {{ form_label(comment_form.content) }}
