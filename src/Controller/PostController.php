@@ -18,14 +18,15 @@ class PostController extends AbstractController
      */
     public function index(Request $request)
     {
-        $page = $request->query->get('p');
+
+        // Gestion de la pagination
+        $page = (int) $request->query->get('p');
 
         if (!isset($page)) {
             $page = 1;
         }
 
         $page = max(1, $page);
-
         $start = ($page - 1) * 5;
 
         // On récupère tous les Posts publics
@@ -40,7 +41,11 @@ class PostController extends AbstractController
         return $this->render('post/index.html.twig', [
             // variable twig => variable PHP
             'posts' => $posts,
-            'post_form' => $form->createView()
+            'post_form' => $form->createView(),
+            'pagination' => [
+                'current' => $page,
+                'max' => 5, // fake limit for now
+            ]
         ]);
     }
 

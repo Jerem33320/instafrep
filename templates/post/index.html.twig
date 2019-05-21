@@ -13,6 +13,30 @@
 
 {% block mainContent %}
 
+    <div class="row">
+        <div class="col">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {{ pagination.current > 1 ? "": "disabled" }}">
+                        <a class="page-link" href="{{ path('posts_list', { 'p': pagination.current - 1}) }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    {#            <li class="page-item"><a class="page-link" href="#">1</a></li>#}
+                    {#            <li class="page-item"><a class="page-link" href="#">2</a></li>#}
+                    {#            <li class="page-item"><a class="page-link" href="#">3</a></li>#}
+
+                    <li class="page-item {{ pagination.current < pagination.max ? "" : "disabled" }}">
+                        <a class="page-link" href="{{ path('posts_list', { 'p': pagination.current + 1}) }}"  aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
     <ul>
         {% for post in posts %}
             <li>
@@ -20,6 +44,10 @@
             </li>
         {% endfor  %}
     </ul>
+
+
+
+
 {% endblock %}
 
 
