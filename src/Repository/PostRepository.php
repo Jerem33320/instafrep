@@ -65,6 +65,11 @@ class PostRepository extends ServiceEntityRepository
         return $posts;
     }
 
+    public function countForHomepage()
+    {
+        return $this->count(['public' => true]);
+    }
+
 //     /**
 //      * @return Post[] Returns an array of Post objects
 //      */

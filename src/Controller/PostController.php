@@ -28,6 +28,12 @@ class PostController extends AbstractController
 
         $page = max(1, $page);
         $start = ($page - 1) * 5;
+        $totalPosts = $this
+            ->getDoctrine()
+            ->getRepository(Post::class)
+            ->countForHomepage();
+
+        $max =ceil($totalPosts / 5);
 
         // On récupère tous les Posts publics
         $posts = $this
@@ -44,7 +50,7 @@ class PostController extends AbstractController
             'post_form' => $form->createView(),
             'pagination' => [
                 'current' => $page,
-                'max' => 5, // fake limit for now
+                'max' => $max, // fake limit for now
             ]
         ]);
     }
