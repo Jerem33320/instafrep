@@ -80,15 +80,9 @@ class PostController extends AbstractController
         if ( $form->isSubmitted() ) {
 
             if ($form->isValid()) {
-                // on va cherche un user aleatoire
-                $user = $this
-                    ->getDoctrine()
-                    ->getRepository(User::class)
-                    ->findOneRandom();
-
                 // on crée un nouvelle instance de l'entité Post
                 $post = $form->getData();
-                $post->setAuthor($user);
+                $post->setAuthor($this->getUser());
 
                 // on dit à Doctrine de "s'occuper" de ce Post
                 $manager = $this->getDoctrine()->getManager();

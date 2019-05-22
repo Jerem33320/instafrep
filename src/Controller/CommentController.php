@@ -29,14 +29,7 @@ class CommentController extends AbstractController
 
             // créer un commentaire
             $comment = $form->getData();
-
-            // on va cherche un user aléatoire
-            $user = $this
-                ->getDoctrine()
-                ->getRepository(User::class)
-                ->findOneRandom();
-
-            $comment->setAuthor($user);
+            $comment->setAuthor($this->getUser());
 
             // associer le commentaire au post
              $post = $this
