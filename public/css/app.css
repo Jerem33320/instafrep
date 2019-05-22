@@ -119,3 +119,8 @@ Exemple de CSS pour l'état de chargement du bouton
 #notification-container .alert:last-child {
     margin-bottom: 0;
 }
+
+
+.post-pagination {
+    margin: 32px;
+}
