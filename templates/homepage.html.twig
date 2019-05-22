@@ -1,18 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Liste des publications publiques
+    Instafrep
 {% endblock %}
 
 
+{% block navbar %}
+{# No navbar on homepage #}
+{% endblock %}
+
 {% block headerContent %}
     <h1 class="display-4">Instafrep</h1>
-    <p class="lead">42 nouveaux posts aujourd'hui</p>
+    <p class="lead">Code, sandwiches and fun !!!</p>
 
+    <hr class="my-4">
+
+    <a class="btn btn-primary btn-lg" href="" role="button">Join now</a>
+    <small> or </small>
+    <a href="{{ path('login') }}">login</a>
 {%  endblock %}
 
 {% block mainContent %}
-
     <ul>
         {% for post in posts %}
             <li>
@@ -27,7 +35,9 @@
 {% block sidebarContent %}
 
     <div class="sticky">
-        {% include 'post/form.html.twig' %}
+
+        <h2>Login</h2>
+        {% include 'security/_login-form.html.twig' %}
     </div>
 {% endblock %}
 
