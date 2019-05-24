@@ -93,6 +93,15 @@ class AppFixtures extends Fixture
                 $manager->persist($comment);
             }
 
+
+            // Creations des "likes"
+            $nbLikers = rand(0, count($users));
+            for ($j = 0; $j < $nbLikers; $j++) {
+                $u = $users[$j];
+                $u->like($post);
+            }
+
+
             $manager->persist($post);
         }
 

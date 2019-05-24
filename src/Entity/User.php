@@ -58,11 +58,17 @@ class User extends Model implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Post", inversedBy="likers")
+     */
+    private $liked;
+
 
     public function __construct()
     {
         parent::__construct();
         $this->posts = new ArrayCollection();
+        $this->liked = new ArrayCollection();
     }
 
     /**
@@ -222,5 +228,32 @@ class User extends Model implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getLiked(): Collection
+    {
+        return $this->liked;
+    }
+
+    public function like(Post $liked): self
+    {
+        if (!$this->liked->contains($liked)) {
+            $this->liked[] = $liked;
+        }
+
+        return $this;
+
+    }
+
+    public function unlike(Post $liked): self
+    {
+        if ($this->liked->contains($liked)) {
+            $this->liked->removeElement($liked);
+        }
+
+        return $this;
     }
 }
