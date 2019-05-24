@@ -177,4 +177,71 @@ class PostController extends AbstractController
         return $this->redirectToRoute('posts_list');
     }
 
+
+    /**
+     * @Route("posts/{id}/like", name="post_like")
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function like(Request $request, $id) {
+
+        $post = $this
+            ->getDoctrine()
+            ->getRepository(Post::class)
+            ->find($id);
+
+        if (empty($post)) {
+            throw $this->createNotFoundException('Post introuvable');
+        }
+
+        $this->getUser()->like($post);
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->flush();
+
+
+        // Naive redirect to the previous page
+        $referer = $request->headers->get('referer');
+
+        if (!$referer) {
+            return $this->redirectToRoute('post_single', ['id' => $id]);
+        }
+
+        return $this->redirect($referer);
+
+    }
+
+    /**
+     * @Route("posts/{id}/unlike", name="post_unlike")
+     * @param $id
+     */
+    public function unlike(Request $request, $id) {
+
+        $post = $this
+            ->getDoctrine()
+            ->getRepository(Post::class)
+            ->find($id);
+
+        if (empty($post)) {
+            throw $this->createNotFoundException('Post introuvable');
+        }
+
+        $this->getUser()->unlike($post);
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->flush();
+
+
+        // Naive redirect to the previous page
+        $referer = $request->headers->get('referer');
+
+        if (!$referer) {
+            return $this->redirectToRoute('post_single', ['id' => $id]);
+        }
+
+        return $this->redirect($referer);
+    }
+
 }
