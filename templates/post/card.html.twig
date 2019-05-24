@@ -41,8 +41,16 @@
             </div>
             <div class="post-card-data">
                 <p class="card-text">
-                    <i class="far fa-heart"></i>
-                    <small class="text-muted"><strong>4</strong> Likes</small>
+
+                    {% if app.user and app.user.doesLike(post) %}
+                        <i class="fas fa-heart liked"></i>
+                    {% else %}
+                        <i class="far fa-heart"></i>
+                    {% endif %}
+
+                    <small class="text-muted">
+                        <strong>{{ post.likers | length }}</strong> Likes
+                    </small>
                 </p>
             </div>
             <div class="post-card-data">

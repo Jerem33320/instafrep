@@ -256,4 +256,9 @@ class User extends Model implements UserInterface
 
         return $this;
     }
+
+
+    public function doesLike(Post $post): bool {
+        return $this->liked->contains($post);
+    }
 }
