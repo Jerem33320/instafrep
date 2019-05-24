@@ -40,18 +40,7 @@ class PostController extends AbstractController
     public function single($id) {
 
         // On va chercher en BDD le post qui correspond à l'ID
-        $post = $this
-            ->getDoctrine()
-            ->getRepository(Post::class)
-            ->find($id);
-
-        // Si le post n'est pas trouvé, on doit gérer cette erreur
-        if (empty($post)) {
-            // rediriger sur une autre page
-            // return $this->redirectToRoute('posts_list');
-            // ou lancer une erreur 404
-            throw $this->createNotFoundException('Post introuvable');
-        }
+        $post = $this->findOr404($id);
 
         // On crée un formulaire pour les commentaires
         $form = $this->createForm(CommentType::class);
@@ -113,15 +102,7 @@ class PostController extends AbstractController
      */
     public function edit(Request $request, $id) {
         // On va chercher en BDD le post qui correspond à l'ID
-        $post = $this
-            ->getDoctrine()
-            ->getRepository(Post::class)
-            ->find($id);
-
-        // Si le post n'est pas trouvé, on doit gérer cette erreur
-        if (empty($post)) {
-            throw $this->createNotFoundException('Post introuvable');
-        }
+        $post = $this->findOr404($id);
 
         $response = new Response();
 
@@ -157,16 +138,7 @@ class PostController extends AbstractController
      */
     public function remove($id) {
 
-        // On va chercher en BDD le post qui correspond à l'ID
-        $post = $this
-            ->getDoctrine()
-            ->getRepository(Post::class)
-            ->find($id);
-
-        // Si le post n'est pas trouvé, on doit gérer cette erreur
-        if (empty($post)) {
-            throw $this->createNotFoundException('Post introuvable');
-        }
+        $post = $this->findOr404($id);
 
         // on supprime
         $manager = $this->getDoctrine()->getManager();
@@ -187,14 +159,7 @@ class PostController extends AbstractController
      */
     public function like(Request $request, $id) {
 
-        $post = $this
-            ->getDoctrine()
-            ->getRepository(Post::class)
-            ->find($id);
-
-        if (empty($post)) {
-            throw $this->createNotFoundException('Post introuvable');
-        }
+        $post = $this->findOr404($id);
 
         $this->getUser()->like($post);
 
@@ -219,14 +184,7 @@ class PostController extends AbstractController
      */
     public function unlike(Request $request, $id) {
 
-        $post = $this
-            ->getDoctrine()
-            ->getRepository(Post::class)
-            ->find($id);
-
-        if (empty($post)) {
-            throw $this->createNotFoundException('Post introuvable');
-        }
+        $post = $this->findOr404($id);
 
         $this->getUser()->unlike($post);
 
@@ -244,4 +202,18 @@ class PostController extends AbstractController
         return $this->redirect($referer);
     }
 
+
+    private function findOr404($id) {
+
+        $post = $this
+            ->getDoctrine()
+            ->getRepository(Post::class)
+            ->find($id);
+
+        if (empty($post)) {
+            throw $this->createNotFoundException('Post introuvable');
+        }
+
+        return $post;
+    }
 }
