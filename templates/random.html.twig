@@ -8,7 +8,14 @@
         </p>
 
         <button id="roll" class="btn btn-primary btn-lg">
-            Roll the dice !
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+
+            <span class="btn-content">Roll the dice !</span>
         </button>
+
+        <div class="alert alert-danger" id="alert">
+            <strong>Error : </strong>
+            <span class="error"></span>
+        </div>
     </div>
 {%  endblock %}

@@ -54,7 +54,7 @@ class Controller extends AbstractController
         // on répond uniquement le nombre
         $isAjax = $request->isXmlHttpRequest();
         if ($isAjax === true) {
-            sleep(rand(0, 5));
+            sleep(rand(1, 3));
 
             return new Response($rand);
         }

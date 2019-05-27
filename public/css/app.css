@@ -60,3 +60,38 @@ ul {
     font-size: 40px;
 }
 
+#roll {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 40px;
+    min-width: 160px;
+}
+
+
+/*
+Exemple de CSS pour l'état de chargement du bouton
+ */
+
+#roll .btn-content {
+    display: block;
+}
+
+#roll .spinner-border {
+    display: none;
+}
+
+#roll.is-loading .btn-content {
+    display: none;
+}
+
+#roll.is-loading .spinner-border {
+    display: block;
+}
+
+
+#alert {
+    display: none;
+    margin-top: 32px;
+}

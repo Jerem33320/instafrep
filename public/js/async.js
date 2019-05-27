@@ -2,16 +2,25 @@
 
 // Attendre que le DOM soit chargé
 document.addEventListener('DOMContentLoaded', () => {
+
+    const alertBox = document.getElementById('alert');
+
     // Selection du bouton
     const btn = document.getElementById('roll');
 
     // Ecouter le clic sur le bouton
     btn.addEventListener('click', () => {
+
+        // masquer l'alerte
+        alertBox.style.display = 'none';
+
         // Sélectionner le paragraphe
         const p = document.querySelector('#random');
 
-        // Demander au serveur un nombre aléatoire
+        btn.disabled = true;
+        btn.classList.add('is-loading');
 
+        // Demander au serveur un nombre aléatoire
         // ---- Envoi de la requête AJAX au serveur
         fetch('/rand', {
             headers: {
@@ -22,13 +31,29 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         // ---- Gestion de la réponse du serveur
         .then((response) => {
-            return response.text();
+            if (response.status >= 200 && response.status < 300) {
+                return response.text();
+            }
+
+            throw new Error(response.statusText);
         })
         .then((text) => {
             // Définir le texte dans le paragraphe
             p.textContent = text;
+
+            // Débloquer le bouton
+            btn.disabled = false;
+            btn.classList.remove('is-loading');
         })
-        .catch(() => { console.log('ERREUR'); })
+        .catch((err) => {
+            // Débloquer le bouton
+            btn.disabled = false;
+            btn.classList.remove('is-loading');
+
+            // Afficher l'alerte d'erreur
+            alertBox.querySelector('.error').textContent = err.message
+            alertBox.style.display = 'block';
+        })
 
 
 
