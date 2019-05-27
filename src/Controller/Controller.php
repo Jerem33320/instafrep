@@ -39,4 +39,30 @@ class Controller extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/rand", name="random_number")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function randomPage(Request $request) {
+
+        $rand = rand(0, 100);
+
+        // Si c'est une requête AJAX,
+        // on répond uniquement le nombre
+        $isAjax = $request->isXmlHttpRequest();
+        if ($isAjax === true) {
+            sleep(rand(0, 5));
+
+            return new Response($rand);
+        }
+
+        // Si c'est une requête "normale", on rend une page HTML
+        return $this->render('random.html.twig', [
+            'rand' => $rand
+        ]);
+    }
+
 }

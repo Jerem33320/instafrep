@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{%  block mainContent %}
+
+    <div class="random-container">
+        <p id="random">
+            {{ rand }}
+        </p>
+
+        <button id="roll" class="btn btn-primary btn-lg">
+            Roll the dice !
+        </button>
+    </div>
+{%  endblock %}

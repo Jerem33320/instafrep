@@ -45,3 +45,18 @@ ul {
 .liked {
     color: #de1a15;
 }
+
+
+
+.random-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#random {
+    font-weight: bold;
+    font-size: 40px;
+}
+
