@@ -1,5 +1,8 @@
 $(function() {
 
+    // flag
+    let isPending = false;
+
     $('#post-list').on('click', (evt) => {
 
         // On veut sélectionner le lien <a> ayant la class "like".
@@ -16,6 +19,8 @@ $(function() {
         // (et donc de recharger la page)
         evt.preventDefault();
 
+        if (isPending) return false;
+        isPending = true;
 
         const url = $link.attr('href');
 
@@ -37,7 +42,8 @@ $(function() {
 
                     $counter.text(currentCount + 1);
 
-                } else if (response.status === 204) {
+                }
+                else if (response.status === 204) {
 
                     $link
                         .attr('href', url.replace('unlike', 'like'))
@@ -47,14 +53,20 @@ $(function() {
                         .removeClass('liked');
 
                     $counter.text(currentCount - 1);
-                } else {
-                    // ????
                 }
+                else {
+                    throw new Error('Something bad happened :(');
+                }
+
+                return response.text();
             })
             .catch((error) => {
                 // if any error occurs
+                console.log(error);
             })
-
+            .finally(() => {
+                isPending = false;
+            })
 
     });
 
