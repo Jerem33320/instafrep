@@ -47,7 +47,7 @@ class PostRepository extends ServiceEntityRepository
             ->groupBy('p.id')
             ->orderBy('p.id', 'DESC')
             ->setFirstResult($start)
-            ->setMaxResults($take)
+            ->setMaxResults($take);
 
         if ($onlyPublic === true) {
             $queryBuilder = $queryBuilder->where('p.public = true');
