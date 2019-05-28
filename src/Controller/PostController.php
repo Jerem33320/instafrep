@@ -167,8 +167,6 @@ class PostController extends AbstractController
         $manager->flush();
 
         if ($request->isXmlHttpRequest()) {
-
-            sleep(rand(1,3));
             /**
              * @see https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP
              */
@@ -200,8 +198,6 @@ class PostController extends AbstractController
         $manager->flush();
 
         if ($request->isXmlHttpRequest()) {
-
-            sleep(rand(1,3));
             /**
              * @see https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP
              */

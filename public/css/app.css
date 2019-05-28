@@ -95,3 +95,14 @@ Exemple de CSS pour l'état de chargement du bouton
     display: none;
     margin-top: 32px;
 }
+
+#notification-container {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 2;
+}
+
+#notification-container .alert:last-child {
+    margin-bottom: 0;
+}

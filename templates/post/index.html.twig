@@ -31,3 +31,12 @@
     </div>
 {% endblock %}
 
+
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/like.js') }}"></script>
+
+{% endblock %}
