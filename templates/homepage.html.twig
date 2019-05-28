@@ -21,7 +21,7 @@
 {%  endblock %}
 
 {% block mainContent %}
-    <ul>
+    <ul id="post-list">
         {% for post in posts %}
             <li>
                 {% include 'post/card.html.twig' %}
@@ -41,3 +41,10 @@
     </div>
 {% endblock %}
 
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/like.js') }}"></script>
+
+{% endblock %}

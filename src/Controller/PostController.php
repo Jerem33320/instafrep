@@ -166,6 +166,12 @@ class PostController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $manager->flush();
 
+        if ($request->isXmlHttpRequest()) {
+            /**
+             * @see https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP
+             */
+            return new Response('', 201);
+        }
 
         // Naive redirect to the previous page
         $referer = $request->headers->get('referer');
@@ -191,7 +197,12 @@ class PostController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $manager->flush();
 
-
+        if ($request->isXmlHttpRequest()) {
+            /**
+             * @see https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP
+             */
+            return new Response(null, 204);
+        }
         // Naive redirect to the previous page
         $referer = $request->headers->get('referer');
 
