@@ -34,7 +34,14 @@ class Controller extends AbstractController
             ->getRepository(Post::class)
             ->countForHomepage();
 
-        $totalPages = ceil($totalPosts / 5);
+        $totalPages = intval(ceil($totalPosts / 5));
+
+        $isLastPage = false;
+        if ($page === $totalPages) {
+            $isLastPage = true;
+        }
+        // ou
+        $isLastPage = $page === $totalPages;
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -47,14 +54,21 @@ class Controller extends AbstractController
             ->getRepository(Post::class)
             ->findHomepage($start);
 
+        $response = new Response();
+        if (empty($posts)) {
+            $response->setStatusCode(404);
+            return $response;
+        }
 
         // On envoie les posts dans la vue
         if ($request->isXmlHttpRequest()) {
 
+            $response->headers->set('X-Infrep-Is-Last-Page', $isLastPage ? '1' : '0' );
+
 //            sleep(rand(1, 2));
             return $this->render('post/list.html.twig', [
-                'posts' => $posts
-            ]);
+                'posts' => $posts,
+            ], $response);
         }
 
         return $this->render('homepage.html.twig', [
@@ -65,7 +79,7 @@ class Controller extends AbstractController
                 'current' => $page,
                 'max' => $totalPages,
             ]
-        ]);
+        ], $response);
     }
 
 

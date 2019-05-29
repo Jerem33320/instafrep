@@ -14,33 +14,36 @@ $(function() {
     let isLoading = false;
     let isDone = false;
 
-    $('#pagination-next').on('click', (e) => {
-        e.preventDefault();
-
+    function loadPosts() {
         if (isLoading || isDone) return;
         isLoading = true;
         $list.append($loader);
 
         fetch(`/?p=${nextPage}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
             .then((response) => {
+
+                if (parseInt(response.headers.get('X-Infrep-Is-Last-Page'))) {
+                    isDone = true;
+                }
+
                 return response.text();
             })
             .then((bodyText) => {
                 $list.children().last().remove();
 
-                if (bodyText) {
-                    $list.append(bodyText);
-                    nextPage++;
-                } else {
-                    isDone = true;
-                }
+                $list.append(bodyText);
+                nextPage++;
             })
             // .catch( ... )
             .finally(() => {
                 isLoading = false;
             })
         ;
+    }
 
+    $('#pagination-next').on('click', (e) => {
+        e.preventDefault();
+        loadPosts();
     });
 
 
