@@ -22,11 +22,7 @@
 
 {% block mainContent %}
     <ul id="post-list">
-        {% for post in posts %}
-            <li>
-                {% include 'post/card.html.twig' %}
-            </li>
-        {% endfor  %}
+        {% include 'post/list.html.twig' %}
     </ul>
 
     <div class="row">
@@ -52,5 +48,6 @@
     {{ parent() }}
 
     <script src="{{ asset('js/like.js') }}"></script>
+    <script src="{{ asset('js/pagination.js') }}"></script>
 
 {% endblock %}

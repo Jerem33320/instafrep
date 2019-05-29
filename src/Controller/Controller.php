@@ -34,27 +34,36 @@ class Controller extends AbstractController
             ->getRepository(Post::class)
             ->countForHomepage();
 
-        $max = ceil($totalPosts / 5);
+        $totalPages = ceil($totalPosts / 5);
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        // On récupère tous les Posts publics
+        // On récupère les Posts publics correspondants à la page demandée
         $posts = $this
             ->getDoctrine()
             ->getRepository(Post::class)
             ->findHomepage($start);
 
+
         // On envoie les posts dans la vue
+        if ($request->isXmlHttpRequest()) {
+
+//            sleep(rand(1, 2));
+            return $this->render('post/list.html.twig', [
+                'posts' => $posts
+            ]);
+        }
+
         return $this->render('homepage.html.twig', [
             'posts' => $posts,
             'last_username' => $lastUsername,
             'error' => $error,
             'pagination' => [
                 'current' => $page,
-                'max' => $max, // fake limit for now
+                'max' => $totalPages,
             ]
         ]);
     }

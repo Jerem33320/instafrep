@@ -1,6 +1,6 @@
 <nav aria-label="posts pagination" class="post-pagination">
     <ul class="pagination justify-content-center">
-        <li class="page-item {{ pagination.current > 1 ? "": "disabled" }}">
+        <li id="pagination-previous" class="page-item {{ pagination.current > 1 ? "": "disabled" }}">
             <a class="page-link" href="{{ path('posts_list', { 'p': pagination.current - 1}) }}" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
@@ -33,7 +33,7 @@
         {% endfor %}
 
 
-        <li class="page-item {{ pagination.current < pagination.max ? "" : "disabled" }}">
+        <li id="pagination-next" class="page-item {{ pagination.current < pagination.max ? "" : "disabled" }}">
             <a class="page-link" href="{{ path('posts_list', { 'p': pagination.current + 1}) }}"  aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>

@@ -124,3 +124,13 @@ Exemple de CSS pour l'état de chargement du bouton
 .post-pagination {
     margin: 32px;
 }
+
+
+.card.loader {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 32px;
+}
