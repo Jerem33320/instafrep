@@ -19,7 +19,7 @@ class ImageController extends AbstractController
         $imageSize = 200;
 
         // On crée les "ressources"
-        $img = imagecreate($imageSize * 10, $imageSize);
+        $img = imagecreate($imageSize, $imageSize);
         $leftPart = imagecreate($imageSize / 2, $imageSize);
         $rightPart = imagecreate($imageSize / 2, $imageSize);
 
@@ -60,7 +60,7 @@ class ImageController extends AbstractController
         imageflip($rightPart, IMG_FLIP_HORIZONTAL);
 
         // Créer l'image finale
-        imagecopy($img, $leftPart, $i * $imageSize, 0, 0, 0, $imageSize / 2, $imageSize);
+        imagecopy($img, $leftPart, 0, 0, 0, 0, $imageSize / 2, $imageSize);
         imagecopy($img, $rightPart, 100, 0, 0, 0, $imageSize / 2, $imageSize);
 
 
