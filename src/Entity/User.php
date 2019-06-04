@@ -5,7 +5,11 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
+
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -34,6 +38,8 @@ class User extends Model implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @Assert\File(mimeTypes={ "image/gif", "image/jpeg", "image/png" })
      */
     private $avatar;
 
@@ -124,17 +130,25 @@ class User extends Model implements UserInterface
         return $this;
     }
 
-    public function getAvatar(): ?string
+    /** -----------------------------------------------------------------------------------------------
+
+     * Avatar methods (getter and setter)
+     *
+     * They CANNOT contains type hints otherwise it breaks Symfony automatic upload system
+     *
+    ---------------------------------------------------------------------------------------------- */
+    public function getAvatar()
     {
         return $this->avatar;
     }
 
-    public function setAvatar(?string $avatar): self
+    public function setAvatar($avatar): self
     {
         $this->avatar = $avatar;
-
         return $this;
     }
+
+    /** ----------------------------------------------------------------------------------------------- */
 
     public function getEmail(): ?string
     {
@@ -261,4 +275,5 @@ class User extends Model implements UserInterface
     public function doesLike(Post $post): bool {
         return $this->liked->contains($post);
     }
+
 }

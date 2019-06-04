@@ -87,4 +87,5 @@ abstract class Model implements ModelInterface
 
         return $this;
     }
+
 }

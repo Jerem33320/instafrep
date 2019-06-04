@@ -6,6 +6,9 @@
 parameters:
     locale: 'en'
 
+    # Custom parameter - Path to the public folder containing all user uploaded files
+    user_upload_folder: '%kernel.project_dir%/public/uploads'
+
 services:
     # default configuration for services in *this* file
     _defaults:
