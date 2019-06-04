@@ -28,6 +28,7 @@ class Post extends Model
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\File(mimeTypes={ "image/gif", "image/jpeg", "image/png" })
      */
     private $attachment;
 
@@ -93,12 +94,12 @@ class Post extends Model
     }
 
 
-    public function getAttachment(): ?string
+    public function getAttachment()
     {
         return $this->attachment;
     }
 
-    public function setAttachment(?string $attachment): self
+    public function setAttachment($attachment): self
     {
         $this->attachment = $attachment;
 

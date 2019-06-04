@@ -7,6 +7,9 @@ use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -91,8 +94,24 @@ class PostController extends AbstractController
 
             if ($form->isValid()) {
                 // on crée un nouvelle instance de l'entité Post
+                /** @var Post $post */
                 $post = $form->getData();
                 $post->setAuthor($this->getUser());
+
+                // gestion du fichier
+                /** @var UploadedFile $file */
+                $file = $post->getAttachment();
+                if (!empty($file)) {
+                    // renomme le fichier
+                    $basename = 'post-attach-' . md5(uniqid());
+                    $ext = $file->guessExtension();
+                    $filename = $basename . '.' . $ext;
+
+                    $file->move($this->getParameter('user_upload_folder'), $filename);
+
+                    // on force attachment en string pour l'envoi en BDD
+                    $post->setAttachment($filename);
+                }
 
                 // on dit à Doctrine de "s'occuper" de ce Post
                 $manager = $this->getDoctrine()->getManager();
@@ -123,7 +142,15 @@ class PostController extends AbstractController
      */
     public function edit(Request $request, $id) {
         // On va chercher en BDD le post qui correspond à l'ID
+        /** @var Post $post */
         $post = $this->findOr404($id);
+
+        $fileName = $post->getAttachment();
+        $oldFile = null;
+        if (!empty($fileName)) {
+            $oldFile = new File($this->getParameter('user_upload_folder') . '/' . $fileName);
+            $post->setAttachment($oldFile);
+        }
 
         $response = new Response();
 
@@ -134,6 +161,30 @@ class PostController extends AbstractController
         if ( $form->isSubmitted() ) {
 
             if ($form->isValid()) {
+
+                $post = $form->getData();
+                // gestion du fichier
+                /** @var UploadedFile $file */
+                $newFile = $post->getAttachment();
+                if (!empty($newFile)) {
+                    // renomme le fichier
+                    $basename = 'post-attach-' . md5(uniqid());
+                    $ext = $newFile->guessExtension();
+                    $filename = $basename . '.' . $ext;
+
+                    $newFile->move($this->getParameter('user_upload_folder'), $filename);
+
+                    // on force attachment en string pour l'envoi en BDD
+                    $post->setAttachment($filename);
+
+                    // On supprime le vieux fichier !
+                    if (!empty($oldFile)) {
+                        $fileSystem = new Filesystem();
+                        $fileSystem->remove($oldFile->getPathname());
+                    }
+                }
+
+
 
                 // on dit au manager d'envoyer le post en BDD
                 $manager = $this->getDoctrine()->getManager();
