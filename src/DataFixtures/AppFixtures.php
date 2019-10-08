@@ -43,7 +43,7 @@ class AppFixtures extends Fixture
             $user->setBirth($faker->dateTimeThisCentury());
             $user->setAvatar($avatars[$k]);
 
-            $password = $this->encoder->encodePassword($user,'azeaze');
+            $password = $this->encoder->encodePassword($user,'aze');
             $user->setPassword($password);
 
             $manager->persist($user);

@@ -18,6 +18,10 @@ class ImageController extends AbstractController
      */
     public function index(Request $req, AvatarGenerator $generator)
     {
+        $size = $req->get('size');
+        $format = $req->get('format');
+
+        $avatar = $generator->getRandom($size, $format);
         // Creation de la réponse HTTP
         $response = new Response($avatar);
         $response->headers->set('Content-Type', 'image/png');
